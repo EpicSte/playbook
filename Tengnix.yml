@@ -1,0 +1,28 @@
+---
+- hosts: all
+  tasks:
+    - name : update yum
+      yum:
+        update_cache : yes
+ 
+    - name: ajout depot EPEL
+      yum:
+        name: epel-release
+        state: present
+
+    - name: install nginx
+      yum:
+        name: nginx
+        state: present
+
+    - name: start nginx service
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: Copy test.html
+      copy:
+        src: test.html
+        dest: /usr/share/nginx/html
+       
