@@ -21,8 +21,53 @@
         state: started
         enabled: yes
 
-    - name: Copy test.html
-      copy:
-        src: test.html
-        dest: /usr/share/nginx/html
+    - name: Creat du repertoire steven.com
+      file:
+        path: /usr/share/nginx/steven.com
+        state: directory
        
+
+    - name: Create le deuxieme repertoire
+      file:
+        path: /usr/share/nginx/mastergops.com
+        state: directory
+       # mode: '0755'
+
+   # - name: Cree les fichier index1
+   #   file:
+   #     path: /etc/ansible/playbook/Imarcorg/marcorg.html
+    #    state: touch
+     #   mode: u=rw,g=r,o=r
+
+   # - name: Cree le fichier index2
+    #  file:
+     #   path: /etc/ansible/playbook/Imarcedu/marcedu.html
+      #  state: touch
+       # mode: u=rw,g=r,o=r
+
+    - name: Copy index.html dans usr/share/nginx
+      copy:
+        src: /etc/ansible/playbook/index.html
+        dest: /usr/share/nginx/steven.com/index.html
+
+    - name: Copy index2.html dans usr /share/nginx
+      copy:
+        src: /etc/ansible/playbook/index2.html
+        dest: /usr/share/nginx/mastergops.com/index.html
+      
+
+    - name: Configuration du bloc steven.com
+      copy:
+         src: /etc/ansible/playbook/steven.com.conf
+         dest: /etc/nginx/conf.d/steven.com.conf
+
+    - name: Configuration du bloc mastergops.com
+      copy:
+        src: /etc/ansible/playbook/mastergops.com.conf
+        dest: /etc/nginx/conf.d/mastergops.com.conf
+
+
+    - name: restart nginx
+      service:
+        name: nginx
+        state: restarted 
