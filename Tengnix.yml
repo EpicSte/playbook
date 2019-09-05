@@ -65,13 +65,8 @@
       copy:
         src: /etc/ansible/playbook/mastergops.com.conf
         dest: /etc/nginx/conf.d/mastergops.com.conf
-
-
-    - name: restart nginx
-      service:
-        name: nginx
-        state: restarted
-
+      notify:
+       - restart nginx
 
     - name: installation tools
       yum: name={{ item }} update_cache=yes state=latest
@@ -79,4 +74,12 @@
          - htop
          - git
          - zsh
-         - sudo 
+         - sudo
+
+
+
+  handlers:
+       - name: restart nginx
+         service:
+           name: nginx
+           state: restarted 
