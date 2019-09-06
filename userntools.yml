@@ -1,0 +1,23 @@
+---
+- name: creation du user !
+  hosts: all 
+  tasks:
+    - name: ajout de l'utilisateur jordan
+      user:
+        name: jordan
+        shell: /usr/bin/zsh
+        state: present
+
+    - name: ajout de clef ssh
+      authorized_key:
+        user: jordan
+        state: present
+        key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+
+    - name: installation tools
+      yum: name={{ item }} update_cache=yes state=latest
+      with_items:
+        - htop
+        - git
+        - zsh
+        - sudo
